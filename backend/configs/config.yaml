@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  mode: debug
+
+database:
+  host: localhost
+  port: 3306
+  username: root
+  password: your_password
+  database: netbar_management
+  charset: utf8mb4
+  max_idle_conns: 10
+  max_open_conns: 100
+
+jwt:
+  secret: your_jwt_secret_key_here
+  access_token_expire: 2h
+  refresh_token_expire: 168h
+
+log:
+  level: debug
+  filename: logs/app.log
+  max_size: 100
+  max_age: 30
+  max_backups: 10
+  compress: true

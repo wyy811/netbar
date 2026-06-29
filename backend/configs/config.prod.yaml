@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  mode: release
+
+database:
+  host: your_production_host
+  port: 3306
+  username: your_production_user
+  password: your_production_password
+  database: netbar_management
+  charset: utf8mb4
+  max_idle_conns: 20
+  max_open_conns: 200
+
+jwt:
+  secret: your_production_jwt_secret_key
+  access_token_expire: 2h
+  refresh_token_expire: 168h
+
+log:
+  level: info
+  filename: logs/app.log
+  max_size: 200
+  max_age: 60
+  max_backups: 20
+  compress: true
