@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Auditlog struct {
+type AuditLog struct {
 	ID         uint            `json:"id"`
 	UserID     uint            `json:"userid"`
 	Action     string          `json:"action"`

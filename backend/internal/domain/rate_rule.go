@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type Raterule struct {
+type RateRule struct {
 	ID          uint      `json:"id"`
 	RuleName    string    `json:"rulename"`
 	DayOfWeek   int       `json:"dayofweek"`
