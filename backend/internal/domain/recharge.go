@@ -6,8 +6,8 @@ import (
 
 type Recharge struct {
 	ID              uint      `json:"id"`
-	MemberID        uint      `json:"memberid"`
-	UserID          uint      `json:"userid"`
+	MemberID        int       `json:"memberid"`
+	UserID          int       `json:"userid"`
 	DurationMinutes int       `json:"durationminutes"`
 	Amount          float64   `json:"amount"`
 	BonusAmount     float64   `json:"bonusamount"`

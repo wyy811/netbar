@@ -7,10 +7,10 @@ import (
 
 type AuditLog struct {
 	ID         uint            `json:"id"`
-	UserID     uint            `json:"userid"`
+	UserID     int             `json:"userid"`
 	Action     string          `json:"action"`
 	TargetType string          `json:"targettype"`
-	TargetID   uint            `json:"targetid"`
+	TargetID   int             `json:"targetid"`
 	Detail     json.RawMessage `json:"detail"`
 	IpAdress   string          `json:"ipadress"`
 	UserAgent  string          `json:"useragent"`

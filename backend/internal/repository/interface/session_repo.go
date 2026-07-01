@@ -1,4 +1,4 @@
-package repository
+package iface
 
 import "netbar-management/internal/domain"
 

@@ -6,9 +6,9 @@ import (
 
 type Session struct {
 	ID              uint      `json:"id"`
-	ComputerID      uint      `json:"computerid"`
-	MemberID        uint      `json:"memberid"`
-	UserID          uint      `json:"userid"`
+	ComputerID      int       `json:"computerid"`
+	MemberID        int       `json:"memberid"`
+	UserID          int       `json:"userid"`
 	StartTime       time.Time `json:"starttime"`
 	EndTime         time.Time `json:"endtime"`
 	DurationMinutes int       `json:"durationminutes"`
