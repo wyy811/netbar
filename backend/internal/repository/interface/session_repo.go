@@ -6,8 +6,8 @@ type SessionRepo interface {
 	Create(session *domain.Session) error
 	GetByID(id uint) (*domain.Session, error)
 	GetAll() ([]*domain.Session, error)
-	GetByMemberID(memberID uint) ([]*domain.Session, error)
-	GetByComputerID(computerID uint) ([]*domain.Session, error)
+	GetByMemberID(memberID int) ([]*domain.Session, error)
+	GetByComputerID(computerID int) ([]*domain.Session, error)
 	Update(session *domain.Session) error
 	Delete(id uint) error
 }

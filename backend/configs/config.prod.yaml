@@ -1,26 +1,91 @@
+# ============================================================
+# 项目名称：网吧计费管理系统 - 生产环境配置文件
+# 适用环境：线上部署（Docker / 服务器）
+# ============================================================
+
+# 注意：所有敏感信息（密码、密钥）通过环境变量注入，不硬编码
+
+# ------------------------------------------------------------
+# 1. 服务端配置
+# ------------------------------------------------------------
 server:
   port: 8080
-  mode: release
+  mode: release                   # 生产环境使用 release 模式
+  read_timeout: 10s               # 生产环境更严格的超时控制
+  write_timeout: 10s
 
+# ------------------------------------------------------------
+# 2. 数据库配置（敏感信息通过环境变量覆盖）
+# ------------------------------------------------------------
 database:
-  host: your_production_host
-  port: 3306
-  username: your_production_user
-  password: your_production_password
-  database: netbar_management
+  host: ${DB_HOST}                # 从环境变量读取
+  port: ${DB_PORT:-3306}          # 带默认值的环境变量
+  username: ${DB_USER}
+  password: ${DB_PASSWORD}        # 必须通过环境变量注入
+  dbname: ${DB_NAME:-internet_cafe}
   charset: utf8mb4
-  max_idle_conns: 20
+  parse_time: true
+  loc: Local
+  max_idle_conns: 20              # 生产环境适当调大连接池
   max_open_conns: 200
+  conn_max_lifetime: 1800s        # 30分钟，防止 MySQL 主动断开
 
+# ------------------------------------------------------------
+# 3. JWT 认证配置
+# ------------------------------------------------------------
 jwt:
-  secret: your_production_jwt_secret_key
-  access_token_expire: 2h
-  refresh_token_expire: 168h
+  secret_key: ${JWT_SECRET_KEY}   # 必须通过环境变量注入，至少 32 位
+  access_expire: 720m             # 12小时（生产环境更短，提高安全性）
+  refresh_expire: 10080m          # 7天
+  issuer: "internet-cafe-system"
 
+# ------------------------------------------------------------
+# 4. 日志配置
+# ------------------------------------------------------------
 log:
-  level: info
-  filename: logs/app.log
-  max_size: 200
-  max_age: 60
-  max_backups: 20
-  compress: true
+  level: info                     # 生产环境用 info 或 warn，减少日志量
+  output: /var/log/internet-cafe/app.log  # 写入日志文件（配合日志轮转）
+  format: json                    # JSON 格式便于 ELK/日志平台采集
+
+# ------------------------------------------------------------
+# 5. 计费引擎配置
+# ------------------------------------------------------------
+billing:
+  min_pre_deduct: 10.00           # 生产环境可适当提高预扣金额
+  precision: 2
+  enable_overnight: true
+
+# ------------------------------------------------------------
+# 6. 限流配置
+# ------------------------------------------------------------
+rate_limit:
+  requests_per_minute: 200        # 根据服务器性能调高
+  burst: 50
+
+# ------------------------------------------------------------
+# 7. 跨域配置（生产环境严格限制）
+# ------------------------------------------------------------
+cors:
+  allow_origins:
+    - "https://your-domain.com"   # 只允许生产域名
+    - "https://admin.your-domain.com"
+  allow_methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+    - OPTIONS
+  allow_headers:
+    - Authorization
+    - Content-Type
+    - X-Requested-With
+  allow_credentials: true
+  max_age: 86400
+
+# ------------------------------------------------------------
+# 8. 系统初始化配置
+# ------------------------------------------------------------
+initialization:
+  create_admin: false             # 生产环境通过独立脚本创建管理员
+  seed_rate_rules: false          # 计费规则已在数据库中存在，不重复导入
